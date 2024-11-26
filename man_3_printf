@@ -1,0 +1,51 @@
+.TH PRINTF 1 "25/11/2024" "version 1.0" "user commands"
+.SH NAME
+printf \- format and print data
+.SH SYNOPSIS
+.PP
+.B \fBprintf\fR FORMAT [ARGUMENT]...
+.PP
+.B \fBprintf\fR OPTION
+.SH DESCRIPTION
+.PP
+The \fBprintf\fR command is used to format and display text and numbers with precise formatting control, similar to the printf function in the C language.
+.SH OPTIONS
+.TP
+.B %c: prints a single character
+.TP
+.B %s: prints a string of characters
+.TP
+.B %d: prints a decimal number
+.TP
+.B %i: prints an integer in base 10
+.TP
+.B %%: prints a percent sign
+
+.SH EXAMPLES
+.PP
+.B for the %c
+.nf
+.B printf("Caractère : %c\n", 'A');
+.fi
+.PP
+.B for the %s
+.nf
+.B printf("Chaîne : %s\n", "Bonjour");
+.fi
+.PP
+.B for the %d
+.nf
+.B printf("Nombre décimal : %d\n", 42);
+.fi
+.PP
+.B for the %i
+.nf
+.B printf("Entier : %i\n", 123);
+.fi
+.PP
+.B for the %%
+.nf
+.B printf("Pourcentage : %%\n");
+.fi
+.SH AUTHOR
+ Written by Yassine BOUYANIF, Luca Mansi

@@ -5,80 +5,72 @@
 
 
 /**
- * print_number - prints a number
- * @n: number to print
- * Return: number of characters printed
- */
-
-int print_number(int n)
-{
-	int count = 0;
-	char buffer[12];
-	char *ptr = buffer + sizeof(buffer) - 1;
-	unsigned int num = n;
-
-	*ptr = '\0';
-	if (n < 0)
-		num = -n;
-
-	do {
-		*--ptr = (num % 10) + '0';
-		num /= 10;
-		count++;
-	} while (num);
-
-	if (n < 0)
-	{
-		*--ptr = '-';
-		count++;
-	}
-
-	count += write(1, ptr, buffer + sizeof(buffer) - 1 - ptr);
-	return (count);
-}
-
-/**
- * _printf - prints anything
- * @format: list of types of arguments passed to the function
- * Return: number of characters printed
+ * _printf - Produces output according to a format
+ * @format: A string containing the characters and the specifiers
+ * @...: The arguments to be printed
+ *
+ * Description: This function produces output according to a format.
+ * It handles various format specifiers such as
+ * %c, %s, %d, %i, %b, %u, %o, %x, and %X.
+ *
+ * Return: Number of characters printed
  */
 
 int _printf(const char *format, ...)
 {
 	va_list args;
-	int i = 0, count = 0;
-	char *str;
+	unsigned int i = 0, count = 0;
+
+	print_t print_arr[] = {
+		{"c", asset_print_char},
+		{"s", asset_print_string},
+		{"d", asset_print_int},
+		{"i", asset_print_int},
+		{"b", asset_print_binary},
+		{"u", asset_print_unsigned},
+		{"o", asset_print_octal},
+		{"x", asset_print_hex},
+		{"X", asset_print_hex_upper},
+		{"p", asset_print_adress},
+		{"r", asset_print_reverse},
+		{NULL, NULL},
+	};
 
 	va_start(args, format);
+
 	while (format && format[i])
 	{
 		if (format[i] == '%')
 		{
 			i++;
-			if (format[i] == 'c')
-				count += write(1, &(char){(char)va_arg(args, int)}, 1);
-			else if (format[i] == 's')
+			if (format[i] == '%')
 			{
-				str = va_arg(args, char *);
-				if (!str)
-					str = "(null)";
-				while (*str)
-					count += write(1, str++, 1);
+				write(1, &format[i], 1);
+				count++;
 			}
-			else if (format[i] == 'd' || format[i] == 'i')
-				count += print_number(va_arg(args, int));
-			else if (format[i] == '%')
-				count += write(1, "%", 1);
 			else
 			{
-				count += write(1, "%", 1);
-				count += write(1, &format[i], 1);
+				unsigned int j = 0;
+
+				while (print_arr[j].specifier)
+				{
+					if (format[i] == *print_arr[j].specifier)
+					{
+						count += print_arr[j].f(args);
+						break;
+					}
+					j++;
+				}
 			}
 		}
 		else
-			count += write(1, &format[i], 1);
+		{
+			write(1, &format[i], 1);
+			count++;
+		}
 		i++;
 	}
+
 	va_end(args);
 	return (count);
 }
