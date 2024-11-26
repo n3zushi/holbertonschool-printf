@@ -4,18 +4,16 @@
 #include <stdlib.h>
 
 
+void handle_format_specifier(const char *format, unsigned int *i, va_list args,
+							print_t *print_arr, unsigned int *count);
+
 /**
  * _printf - Produces output according to a format
  * @format: A string containing the characters and the specifiers
  * @...: The arguments to be printed
  *
- * Description: This function produces output according to a format.
- * It handles various format specifiers such as
- * %c, %s, %d, %i, %b, %u, %o, %x, and %X.
- *
  * Return: Number of characters printed
  */
-
 int _printf(const char *format, ...)
 {
 	va_list args;
@@ -42,26 +40,7 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			i++;
-			if (format[i] == '%')
-			{
-				write(1, &format[i], 1);
-				count++;
-			}
-			else
-			{
-				unsigned int j = 0;
-
-				while (print_arr[j].specifier)
-				{
-					if (format[i] == *print_arr[j].specifier)
-					{
-						count += print_arr[j].f(args);
-						break;
-					}
-					j++;
-				}
-			}
+			handle_format_specifier(format, &i, args, print_arr, &count);
 		}
 		else
 		{
@@ -73,4 +52,38 @@ int _printf(const char *format, ...)
 
 	va_end(args);
 	return (count);
+}
+
+/**
+ * handle_format_specifier - Handles the format specifier part of the _printf
+ * @format: The format string
+ * @i: Pointer to the current position in format string
+ * @args: The list of arguments
+ * @print_arr: Array of specifiers and corresponding functions
+ * @count: Pointer to the count of characters printed
+ */
+
+void handle_format_specifier(const char *format, unsigned int *i, va_list args,
+							 print_t *print_arr, unsigned int *count)
+{
+	(*i)++;
+	if (format[*i] == '%')
+	{
+		write(1, &format[*i], 1);
+		(*count)++;
+	}
+	else
+	{
+		unsigned int j = 0;
+
+		while (print_arr[j].specifier)
+		{
+			if (format[*i] == *print_arr[j].specifier)
+			{
+				*count += print_arr[j].f(args);
+				break;
+			}
+			j++;
+		}
+	}
 }
