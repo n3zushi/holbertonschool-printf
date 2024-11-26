@@ -48,4 +48,4 @@ The \fBprintf\fR command is used to format and display text and numbers with pre
 .B printf("Pourcentage : %%\n");
 .fi
 .SH AUTHOR
- Written by Yassine BOUYANIF, Luca Mansi
+ Written by Yassine BOUYANIF, Luca
