@@ -27,17 +27,14 @@ int asset_print_string(va_list args)
 {
 	int count = 0;
 	char *str = va_arg(args, char *);
-	char *start_ptr;
+	char *null_str = "(null)";
 
 	if (str == NULL)
-		str = "";
+		str = null_str;
 
-	start_ptr = str;
-
-	while (*start_ptr)
+	while (str[count])
 	{
-		write(1, start_ptr, 1);
-		start_ptr++;
+		write(1, &str[count], 1);
 		count++;
 	}
 

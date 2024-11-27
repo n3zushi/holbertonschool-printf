@@ -3,9 +3,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-
-void handle_format_specifier(const char *format, unsigned int *i, va_list args,
-							print_t *print_arr, unsigned int *count);
+void process_format(const char *format, unsigned int *i,
+va_list args, int *count);
+int find_specifier_handler(const char *format, unsigned int *i,
+va_list args, int *count);
 
 /**
  * _printf - Produces output according to a format
@@ -17,7 +18,78 @@ void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 int _printf(const char *format, ...)
 {
 	va_list args;
-	unsigned int i = 0, count = 0;
+	unsigned int i = 0;
+	int count = 0;
+
+	if (format == NULL)
+		return (-1);
+
+	va_start(args, format);
+
+	while (format && format[i])
+	{
+		if (format[i] == '%')
+		{
+			if (format[i + 1] == '\0')
+			{
+				va_end(args);
+				return (-1);
+			}
+			process_format(format, &i, args, &count);
+			if (count == -1)
+			{
+				va_end(args);
+				return (-1);
+			}
+		}
+		else
+		{
+			if (write(1, &format[i], 1) == -1)
+			{
+				va_end(args);
+				return (-1);
+			}
+			count++;
+		}
+		i++;
+	}
+
+	va_end(args);
+	return (count);
+}
+
+/**
+ * process_format - Handles the processing of format specifiers
+ * @format: The format string
+ * @i: Pointer to the current position in format string
+ * @args: The list of arguments
+ * @count: Pointer to the count of characters printed
+ */
+void process_format(const char *format, unsigned int *i,
+va_list args, int *count)
+{
+	(*i)++;
+	if (find_specifier_handler(format, i, args, count) == -1)
+	{
+		*count = -1;
+		return;
+	}
+}
+
+/**
+ * find_specifier_handler - Finds and executes the correct specifier handler
+ * @format: The format string
+ * @i: Pointer to the current position in format string
+ * @args: The list of arguments
+ * @count: Pointer to the count of characters printed
+ *
+ * Return: 0 if successful, -1 if an error occurs
+ */
+int find_specifier_handler(const char *format, unsigned int *i,
+va_list args, int *count)
+{
+	unsigned int j;
+	int found = 0, result;
 
 	print_t print_arr[] = {
 		{"c", asset_print_char},
@@ -35,69 +107,25 @@ int _printf(const char *format, ...)
 		{NULL, NULL},
 	};
 
-	if (format == NULL)
-		return (-1);
-
-	va_start(args, format);
-
-	while (format && format[i])
-	{
-		if (format[i] == '%')
-		{
-			handle_format_specifier(format, &i, args, print_arr, &count);
-		}
-		else
-		{
-			write(1, &format[i], 1);
-			count++;
-		}
-		i++;
-	}
-
-	va_end(args);
-	return (count);
-}
-
-/**
- * handle_format_specifier - Handles the format specifier part of the _printf
- * @format: The format string
- * @i: Pointer to the current position in format string
- * @args: The list of arguments
- * @print_arr: Array of specifiers and corresponding functions
- * @count: Pointer to the count of characters printed
- */
-
-void handle_format_specifier(const char *format, unsigned int *i, va_list args,
-							 print_t *print_arr, unsigned int *count)
-{
-	unsigned int j = 0;
-
-	(*i)++;
-	if (format[*i] == '\0')
-	{
-		*count = -1;
-		return;
-	}
-
-	while (print_arr[j].specifier)
+	for (j = 0; print_arr[j].specifier != NULL; j++)
 	{
 		if (format[*i] == *(print_arr[j].specifier))
 		{
-			*count += print_arr[j].f(args);
-			return;
+			result = print_arr[j].f(args);
+			if (result == -1)
+				return (-1);
+			*count += result;
+			found = 1;
+			break;
 		}
-		j++;
 	}
 
-	if (format[*i] == '%')
+	if (!found)
 	{
-		*count = -1;
-		return;
+		if (write(1, "%", 1) == -1 || write(1, &format[*i], 1) == -1)
+			return (-1);
+		*count += 2;
 	}
-	else if (format[*i] != '\0')
-	{
-		write(1, "%", 1);
-		write(1, &format[*i], 1);
-		(*count) += 2;
-	}
+
+	return (0);
 }
