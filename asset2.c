@@ -116,8 +116,8 @@ int asset_print_address(va_list args)
 	*ptr = '\0';
 	if (n == 0)
 	{
-		write(1, "0x0", 3);
-		return (5);
+		write(1, "0x0", 5);
+		return (0);
 	}
 
 	do {
