@@ -117,7 +117,7 @@ int asset_print_address(va_list args)
 	if (n == 0)
 	{
 		write(1, "(nil)", 5);
-		return (0);
+		return (5);
 	}
 
 	do {
