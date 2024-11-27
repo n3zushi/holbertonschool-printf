@@ -26,7 +26,7 @@ int asset_print_binary(va_list args);
 int asset_print_unsigned(va_list args);
 int asset_print_octal(va_list args);
 int asset_print_hex(va_list args);
-int asset_print_adress(va_list args);
+int asset_print_address(va_list args);
 int asset_print_reverse(va_list args);
 int asset_print_string(va_list args);
 int asset_print_hex_upper(va_list args);

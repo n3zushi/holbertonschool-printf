@@ -10,17 +10,10 @@
  */
 int asset_print_char(va_list args)
 {
-	int count = 0;
-	int c;
+	char c = (char)va_arg(args, int);
 
-	c = va_arg(args, int);
-	char ch = (char)c;
-
-	write(1, &ch, 1);
-
-	count++;
-
-	return (count);
+	write(1, &c, 1);
+	return (1);
 }
 
 /**
@@ -34,15 +27,20 @@ int asset_print_string(va_list args)
 {
 	int count = 0;
 	char *str = va_arg(args, char *);
+	char *start_ptr;
 
 	if (str == NULL)
 		str = "(null)";
 
-	while (*str)
+	start_ptr = str;
+
+	while (*start_ptr)
 	{
-		write(1, str++, 1);
+		write(1, start_ptr, 1);
+		start_ptr++;
 		count++;
 	}
+
 	return (count);
 }
 
@@ -59,17 +57,18 @@ int asset_print_int(va_list args)
 	char buffer[20];
 	char *ptr = &buffer[19];
 	unsigned int num;
+	char *start_ptr;
 
 	*ptr = '\0';
 	if (n < 0)
 	{
 		write(1, "-", 1);
 		count++;
-		num = -n;
+		num = (unsigned int)(-n);
 	}
 	else
 	{
-		num = n;
+		num = (unsigned int)n;
 	}
 
 	do {
@@ -77,9 +76,12 @@ int asset_print_int(va_list args)
 		num /= 10;
 	} while (num != 0);
 
-	while (*ptr)
+	start_ptr = ptr;
+
+	while (*start_ptr)
 	{
-		write(1, ptr++, 1);
+		write(1, start_ptr, 1);
+		start_ptr++;
 		count++;
 	}
 
@@ -123,9 +125,10 @@ int asset_print_binary(va_list args)
 int asset_print_unsigned(va_list args)
 {
 	unsigned int n = va_arg(args, unsigned int);
-	unsigned int count = 0;
+	int count = 0;
 	char buffer[20];
 	char *ptr = &buffer[19];
+	char *start_ptr;
 
 	*ptr = '\0';
 	do {
@@ -133,9 +136,11 @@ int asset_print_unsigned(va_list args)
 		n /= 10;
 	} while (n != 0);
 
-	while (*ptr)
+	start_ptr = ptr;
+	while (*start_ptr)
 	{
-		write(1, ptr++, 1);
+		write(1, start_ptr, 1);
+		start_ptr++;
 		count++;
 	}
 
