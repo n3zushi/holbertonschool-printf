@@ -104,6 +104,7 @@ va_list args, int *count)
 		{"p", asset_print_address},
 		{"r", asset_print_reverse},
 		{"%", asset_print_percent},
+		{"R", asset_print_rot},
 		{NULL, NULL},
 	};
 
@@ -126,6 +127,5 @@ va_list args, int *count)
 			return (-1);
 		*count += 2;
 	}
-
 	return (0);
 }

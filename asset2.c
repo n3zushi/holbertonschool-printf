@@ -153,20 +153,19 @@ int asset_print_address(va_list args)
 
 int asset_print_reverse(va_list args)
 {
-	unsigned int n = va_arg(args, unsigned int);
+	char *str = va_arg(args, char *);
 	int count = 0;
-	char buffer[20];
-	char *ptr = &buffer[19];
+	int len = 0;
 
-	*ptr = '\0';
-	do {
-		*--ptr = (n % 10) + '0';
-		n /= 10;
-	} while (n != 0);
+	if (!str)
+		str = "(null)";
 
-	while (*ptr)
+	while (str[len])
+		len++;
+
+	for (len = len - 1; len >= 0; len--)
 	{
-		write(1, ptr++, 1);
+		write(1, &str[len], 1);
 		count++;
 	}
 	return (count);
