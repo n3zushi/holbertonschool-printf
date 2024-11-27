@@ -86,11 +86,14 @@ void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 		j++;
 	}
 
-	write(1, "%", 1);
-	(*count)++;
-	if (format[*i] != '%' && format[*i] != '\0')
+	if (format[*i] == '%')
 	{
+		return;
+	}
+	else if (format[*i] != '\0')
+	{
+		write(1, "%", 1);
 		write(1, &format[*i], 1);
-		(*count)++;
+		(*count) += 2;
 	}
 }

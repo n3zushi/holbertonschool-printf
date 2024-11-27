@@ -30,7 +30,7 @@ int asset_print_string(va_list args)
 	char *start_ptr;
 
 	if (str == NULL)
-		str = "(null)";
+		str = "";
 
 	start_ptr = str;
 
