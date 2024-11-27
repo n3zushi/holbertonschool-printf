@@ -10,6 +10,6 @@
 int asset_print_percent(va_list args)
 {
 	(void)args;
-	_putchar('%');
+	write(1, "%", 1);
 	return (1);
 }

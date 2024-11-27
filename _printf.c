@@ -35,6 +35,9 @@ int _printf(const char *format, ...)
 		{NULL, NULL},
 	};
 
+	if (format == NULL)
+		return (-1);
+
 	va_start(args, format);
 
 	while (format && format[i])
@@ -67,24 +70,19 @@ int _printf(const char *format, ...)
 void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 							 print_t *print_arr, unsigned int *count)
 {
-	(*i)++;
-	if (format[*i] == '%')
-	{
-		write(1, &format[*i], 1);
-		(*count)++;
-	}
-	else
-	{
-		unsigned int j = 0;
+	unsigned int j = 0;
 
-		while (print_arr[j].specifier)
+	(*i)++;
+	while (print_arr[j].specifier)
+	{
+		if (format[*i] == *(print_arr[j].specifier))
 		{
-			if (format[*i] == *print_arr[j].specifier)
-			{
-				*count += print_arr[j].f(args);
-				break;
-			}
-			j++;
+			*count += print_arr[j].f(args);
+			return;
 		}
+		j++;
 	}
+
+	write(1, &format[*i], 1);
+	(*count)++;
 }
