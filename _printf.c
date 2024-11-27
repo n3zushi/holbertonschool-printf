@@ -31,8 +31,12 @@ int _printf(const char *format, ...)
 		{"X", asset_print_hex_upper},
 		{"p", asset_print_adress},
 		{"r", asset_print_reverse},
+		{"%", asset_print_percent},
 		{NULL, NULL},
 	};
+
+	if (format == NULL)
+		return (-1);
 
 	va_start(args, format);
 
@@ -66,24 +70,19 @@ int _printf(const char *format, ...)
 void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 							 print_t *print_arr, unsigned int *count)
 {
-	(*i)++;
-	if (format[*i] == '%')
-	{
-		write(1, &format[*i], 1);
-		(*count)++;
-	}
-	else
-	{
-		unsigned int j = 0;
+	unsigned int j = 0;
 
-		while (print_arr[j].specifier)
+	(*i)++;
+	while (print_arr[j].specifier)
+	{
+		if (format[*i] == *(print_arr[j].specifier))
 		{
-			if (format[*i] == *print_arr[j].specifier)
-			{
-				*count += print_arr[j].f(args);
-				break;
-			}
-			j++;
+			*count += print_arr[j].f(args);
+			return;
 		}
+		j++;
 	}
+
+	write(1, &format[*i], 1);
+	(*count)++;
 }

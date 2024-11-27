@@ -30,6 +30,7 @@ int asset_print_adress(va_list args);
 int asset_print_reverse(va_list args);
 int asset_print_string(va_list args);
 int asset_print_hex_upper(va_list args);
+int asset_print_percent(va_list args);
 
 
 #endif
