@@ -31,6 +31,7 @@ int _printf(const char *format, ...)
 		{"X", asset_print_hex_upper},
 		{"p", asset_print_adress},
 		{"r", asset_print_reverse},
+		{"%", asset_print_percent},
 		{NULL, NULL},
 	};
 
