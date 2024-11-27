@@ -74,7 +74,10 @@ void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 
 	(*i)++;
 	if (format[*i] == '\0')
+	{
+		*count = -1;
 		return;
+	}
 
 	while (print_arr[j].specifier)
 	{
@@ -88,6 +91,7 @@ void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 
 	if (format[*i] == '%')
 	{
+		*count = -1;
 		return;
 	}
 	else if (format[*i] != '\0')
