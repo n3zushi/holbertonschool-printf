@@ -11,10 +11,13 @@
 int asset_print_char(va_list args)
 {
 	int count = 0;
-	char c;
+	int c;
 
 	c = va_arg(args, int);
-	write(1, &c, 1);
+	char ch = (char)c;
+
+	write(1, &ch, 1);
+
 	count++;
 
 	return (count);
@@ -34,13 +37,11 @@ int asset_print_string(va_list args)
 
 	if (str == NULL)
 		str = "(null)";
-	if (str)
+
+	while (*str)
 	{
-		while (*str)
-		{
-			write(1, str++, 1);
-			count++;
-		}
+		write(1, str++, 1);
+		count++;
 	}
 	return (count);
 }
