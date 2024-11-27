@@ -9,8 +9,8 @@
 
 int asset_print_percent(va_list args)
 {
-    (void)args;
-    if (write(1, "%", 1) == -1)
-        return (-1);
-    return (1);
+	(void)args;
+	if (write(1, "%", 1) == -1)
+		return (-1);
+	return (1);
 }
