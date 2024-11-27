@@ -69,9 +69,11 @@ int main(void)
     len = _printf("Char: %c, String: %s, Percent: %%, Int: %d, Unsigned: %u, Addr: %p\n", 'A', "Test", -123, 123U, addr);
     len2 = printf("Char: %c, String: %s, Percent: %%, Int: %d, Unsigned: %u, Addr: %p\n", 'A', "Test", -123, 123U, addr);
     _printf("Length: _printf=[%d], printf=[%d]\n", len, len2); */
-
-	printf("%");
-	_printf("%");
+	
+	len2 = _printf("%");
+	len = printf("%");
+	printf ("%d\n", len);
+	_printf ("%d\n", len2);
 
 
     return (0);
