@@ -98,35 +98,46 @@ int asset_print_hex_upper(va_list args)
 }
 
 /**
- * asset_print_adress - Handles address specifier (p)
+ * asset_print_address - Handles address specifier (p)
  * @args: Argument list
  * Description: This function prints the address of a pointer
  * Return: Number of characters printed
  */
 
-int asset_print_adress(va_list args)
+int asset_print_address(va_list args)
 {
-	unsigned long int n = va_arg(args, unsigned long int);
+	void *addr = va_arg(args, void *);
+	unsigned long int n = (unsigned long int)addr;
 	int count = 0;
 	char buffer[20];
 	char *ptr = &buffer[19];
+	char *start_ptr;
 
 	*ptr = '\0';
+	if (n == 0)
+	{
+		write(1, "(nil)", 5);
+		return (5);
+	}
+
 	do {
 		unsigned long int digit = n % 16;
 
 		if (digit < 10)
 			*--ptr = digit + '0';
 		else
-			*--ptr = digit + 'a' - 10;
+			*--ptr = digit - 10 + 'a';
 		n /= 16;
 	} while (n != 0);
 
 	write(1, "0x", 2);
 	count += 2;
-	while (*ptr)
+
+	start_ptr = ptr;
+	while (*start_ptr)
 	{
-		write(1, ptr++, 1);
+		write(1, start_ptr, 1);
+		start_ptr++;
 		count++;
 	}
 

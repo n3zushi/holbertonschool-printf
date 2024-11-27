@@ -29,7 +29,7 @@ int _printf(const char *format, ...)
 		{"o", asset_print_octal},
 		{"x", asset_print_hex},
 		{"X", asset_print_hex_upper},
-		{"p", asset_print_adress},
+		{"p", asset_print_address},
 		{"r", asset_print_reverse},
 		{"%", asset_print_percent},
 		{NULL, NULL},
@@ -73,6 +73,9 @@ void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 	unsigned int j = 0;
 
 	(*i)++;
+	if (format[*i] == '\0')
+		return;
+
 	while (print_arr[j].specifier)
 	{
 		if (format[*i] == *(print_arr[j].specifier))
@@ -83,6 +86,11 @@ void handle_format_specifier(const char *format, unsigned int *i, va_list args,
 		j++;
 	}
 
-	write(1, &format[*i], 1);
+	write(1, "%", 1);
 	(*count)++;
+	if (format[*i] != '%' && format[*i] != '\0')
+	{
+		write(1, &format[*i], 1);
+		(*count)++;
+	}
 }
