@@ -23,7 +23,7 @@ This project is an implementation of the `printf` function in C. It was develope
 
 ## Flow Chart
 
-![printf project](./image/img1.png)
+![printf project](./image/flowchart.png)
 
 ## Man _printf
 
