@@ -1,14 +1,14 @@
-.TH PRINTF 1 "25/11/2024" "version 1.0" "user commands"
+.TH _printf 1 "25/11/2024" "version 1.0" "user commands"
 .SH NAME
-printf \- format and print data
+_printf \- format and print data
 .SH SYNOPSIS
 .PP
-.B \fBprintf\fR FORMAT [ARGUMENT]...
+.B \fB_printf\fR FORMAT [ARGUMENT]...
 .PP
-.B \fBprintf\fR OPTION
+.B \fB_printf\fR OPTION
 .SH DESCRIPTION
 .PP
-The \fBprintf\fR command is used to format and display text and numbers with precise formatting control, similar to the printf function in the C language.
+The \fB_printf\fR command is used to format and display text and numbers with precise formatting control, similar to the _printf function in the C language.
 .SH OPTIONS
 .TP
 .B %c: prints a single character
@@ -20,32 +20,92 @@ The \fBprintf\fR command is used to format and display text and numbers with pre
 .B %i: prints an integer in base 10
 .TP
 .B %%: prints a percent sign
+.TP
+.B %x: prints a number in hexadecimal (lowercase)
+.TP
+.B %X: prints a number in hexadecimal (uppercase)
+.TP
+.B %u: prints an unsigned decimal number
+.TP
+.B %b: prints a number in binary
+.TP
+.B %r: prints a string in reverse
+.TP
+.B %p: prints a pointer address
+.TP
+.B %R: prints string with rot13
+.TP
+.B %r: prints string in reverse
+.TP
+.B %o: prints number in octal
+.TP
 
 .SH EXAMPLES
 .PP
-.B for the %c
+.B # Example for %c
 .nf
-.B printf("Caractère : %c\n", 'A');
+_printf("Character: %c\\n", 'A');
 .fi
 .PP
-.B for the %s
+.B # Example for %s
 .nf
-.B printf("Chaîne : %s\n", "Bonjour");
+_printf("String: %s\\n", "Hello");
 .fi
 .PP
-.B for the %d
+.B # Example for %d
 .nf
-.B printf("Nombre décimal : %d\n", 42);
+_printf("Decimal number: %d\\n", 42);
 .fi
 .PP
-.B for the %i
+.B # Example for %i
 .nf
-.B printf("Entier : %i\n", 123);
+_printf("Integer: %i\\n", 123);
 .fi
 .PP
-.B for the %%
+.B # Example for %%
 .nf
-.B printf("Pourcentage : %%\n");
+_printf("Percentage sign: %%\\n");
+.fi
+.PP
+.B # Example for %x
+.nf
+_printf("Hexadecimal (lowercase): %x\\n", 255);
+.fi
+.PP
+.B # Example for %X
+.nf
+_printf("Hexadecimal (uppercase): %X\\n", 255);
+.fi
+.PP
+.B # Example for %u
+.nf
+_printf("Unsigned decimal: %u\\n", 3147483647);
+.fi
+.PP
+.B # Example for %b
+.nf
+_printf("Binary: %b\\n", 98);
+.fi
+.PP
+.B # Example for %r
+.nf
+_printf("Reversed string: %r\\n", "Hello");
+.fi
+.PP
+.B # Example for %p
+.nf
+_printf("Pointer address: %p\\n", (void *)0x7fff5100b608);
+.fi
+.PP
+.B # Example for %R
+.nf
+_printf("ROT13 string: %R\\n", "Hello");
+.fi
+.PP
+.B # Example for %o
+.nf
+_printf("Octal: %o\\n", 98);
+.fi
 .fi
 .SH AUTHOR
  Written by Yassine BOUYANIF, Luca

@@ -8,15 +8,9 @@ This project is an implementation of the `printf` function in C. It was develope
 - Allowed editors: vi, vim, emacs
  - All your files will be compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
 - All your files should end with a new line
-A README.md file, at the root of the folder of the project is mandatory
 - Your code should use the Betty style. It will be checked using betty-style.pl and betty-doc.pl
 - You are not allowed to use global variables
 - No more than 5 functions per file
-- In the following examples, the main.c files are shown as examples. You can use them to test your functions, but you don’t have to push them to your repo (if you do we won’t take them into account). We will use our own main.c files at compilation; do not push your own main.c file. Our main.c files might be different from the one shown in the examples
-- The prototypes of all your functions should be included in your header file called main.h
-- Don’t forget to push your header file
-- All your header files should be include guarded
-- Note that we will not provide the _putchar function for this project
 
 ## Authorized functions and macros
 - write (man 2 write)
@@ -31,8 +25,11 @@ A README.md file, at the root of the folder of the project is mandatory
 
 ![printf project](./image/img1.png)
 
-## Conversion Specifiers
+## Man _printf
 
+![Pritf man](./image/man.png)
+
+## Conversion Specifiers
 - `%c` : Prints a single character.
 - `%s` : Prints a string of characters.
 - `%d` : Prints a decimal (base 10) number.
@@ -42,6 +39,10 @@ A README.md file, at the root of the folder of the project is mandatory
 - `%X` : Prints a number in hexadecimal (base 16) uppercase.
 - `%p` : Prints a pointer address.
 - `%%` : Prints a percent sign.
+- `%r` : Prints the reversed string.
+- `%R` : Prints the ROT13 string.
+- `%b` : Prints a binary number.
+- `%o` : Prints an octal number.
 
 ## How to Run
 To compile and run the project, use the following commands:
@@ -50,6 +51,58 @@ To compile and run the project, use the following commands:
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o printf
 ./printf
 ```
+
+## Makefile
+
+To simplify the compilation process, you can use a Makefile. Here is an example of a Makefile for this project:
+
+```Makefile
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra -pedantic -std=gnu89
+SRC = $(wildcard *.c)
+OBJ = $(SRC:.c=.o)
+TARGET = printf
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+    $(CC) $(CFLAGS) -o $@ $^
+
+clean:
+    rm -f $(OBJ) $(TARGET)
+
+.PHONY: all clean
+```
+
+To use the Makefile, run the following commands:
+
+1. Compile the project:
+    ```sh
+    make
+    ```
+
+2. Clean the project:
+    ```sh
+    make clean
+    ```
+
+## How to use
+
+To use the `printf` function in your code, follow these steps:
+
+1. Include the header file in your source code:
+    ```c
+    #include "main.h"
+    ```
+
+2. Use the `printf` function as you would with the standard library `printf`:
+    ```c
+    int main(void)
+    {
+        _printf("Hello, World!\n");
+        return (0);
+    }
+    ```
 
 ## Betty Coding Style
 This project follows the Betty coding style. To check your code against the Betty style, you can use the following commands:
